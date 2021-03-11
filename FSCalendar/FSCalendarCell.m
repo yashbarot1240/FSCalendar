@@ -60,9 +60,12 @@
     
     label = [[UILabel alloc] initWithFrame:CGRectZero];
     label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor lightGrayColor];
+    label.textColor = [UIColor blueColor];
+    //label.numberOfLines = 3;
     [self.contentView addSubview:label];
     self.subtitleLabel = label;
+    self.subtitleLabel.numberOfLines = 0;
+    //self.subtitleLabel.textAlignment = NSTextAlignmentLeft;
     
     shapeLayer = [CAShapeLayer layer];
     shapeLayer.backgroundColor = [UIColor clearColor].CGColor;
@@ -113,9 +116,11 @@
                                        self.contentView.fs_width,
                                        titleHeight
                                        );
+        
+        subtitleHeight = ((self.frame.size.height - 2) - ((_titleLabel.fs_bottom-self.preferredTitleOffset.y) - (_titleLabel.fs_height-_titleLabel.font.pointSize)-self.preferredSubtitleOffset.y));
         _subtitleLabel.frame = CGRectMake(
                                           self.preferredSubtitleOffset.x,
-                                          (_titleLabel.fs_bottom-self.preferredTitleOffset.y) - (_titleLabel.fs_height-_titleLabel.font.pointSize)+self.preferredSubtitleOffset.y,
+                                          (_titleLabel.fs_bottom-self.preferredTitleOffset.y) - (_titleLabel.fs_height-_titleLabel.font.pointSize)-self.preferredSubtitleOffset.y,
                                           self.contentView.fs_width,
                                           subtitleHeight
                                           );
@@ -133,10 +138,15 @@
     CGFloat titleHeight = self.bounds.size.height*5.0/6.0;
     CGFloat diameter = MIN(self.bounds.size.height*5.0/6.0,self.bounds.size.width);
     diameter = diameter > FSCalendarStandardCellDiameter ? (diameter - (diameter-FSCalendarStandardCellDiameter)*0.5) : diameter;
+//    _shapeLayer.frame = CGRectMake((self.bounds.size.width-diameter)/2,
+//                                   (titleHeight-diameter)/2,
+//                                   diameter,
+//                                   diameter);
+    
     _shapeLayer.frame = CGRectMake((self.bounds.size.width-diameter)/2,
-                                   (titleHeight-diameter)/2,
+                                   2,
                                    diameter,
-                                   diameter);
+                                   (self.frame.size.height - 4));
     
     CGPathRef path = [UIBezierPath bezierPathWithRoundedRect:_shapeLayer.bounds
                                                 cornerRadius:CGRectGetWidth(_shapeLayer.bounds)*0.5*self.borderRadius].CGPath;
